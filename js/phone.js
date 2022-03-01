@@ -17,7 +17,7 @@ const displaySearchResult = data => {
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
-        <div class="card h-100">
+        <div onclick="loadPhoneDetail('${item.slug}')" class="card h-100">
                 <img src="${item.image}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h3 class="card-title">${item.phone_name}</h3>
@@ -27,4 +27,28 @@ const displaySearchResult = data => {
         `;
         searchResult.appendChild(div);
     })
+}
+
+const loadPhoneDetail = phoneId => {
+    console.log(phoneId);
+    const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displayPhoneDetail(data.data));
+}
+
+const displayPhoneDetail = phone => {
+    console.log(phone);
+    const phonedetails = document.getElementById('phone-details');
+    const div = document.createElement('div');
+    div.classList.add('card');
+    div.innerHTML = `
+    <img src="${phone.image}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">${phone.name}</h5>
+        <p class="card-text">${phone.mainFeatures.storage}</p>
+        
+    </div>
+    `;
+    phonedetails.appendChild(div);
 }
